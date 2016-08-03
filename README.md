@@ -10,14 +10,19 @@ Tested CentOS 7
 
 If you came here and you have no idea where to start and **the only think you worry is PHP 5.6 on Centos 7** do the following (copy paste as root)
 
+    # Install Ansible dependencies
     yum install -y python-jinja2 git
+    # Clone Ansible source from GitHub
     git clone --recursive git://github.com/ansible/ansible.git /usr/local/src/ansible
+    # Register Ansible on your system
     source /usr/local/src/ansible/hacking/env-setup
-    # or include in .bashrc
+    # or if you want to run permanently, include in your .bashrc
     # echo "source /usr/local/src/ansible/hacking/env-setup &> /usr/local/src/ansible/ansible.login" >> ~/.bashrc
     # Now you can run ansible (sort of)
 
+    # Define Ansible hosts
     mkdir /etc/ansible
+    # We will use the `local` in order to work on the vm you are logged in
     echo "localhost ansible_connection=local" > /etc/ansible/hosts
     # Now you can run ansible on your machine (sort of)
 
@@ -28,10 +33,10 @@ If you came here and you have no idea where to start and **the only think you wo
     - hosts: all
       roles:
         - ansible-role-php" > /root/ansible-my-first-playbook/php-playbook.yml
-    
-    git clone --recursive https://github.com/tovletoglou/ansible-playbook-aegir-centos.git
-    cd ansible-playbook-aegir-centos
-    ansible-playbook php-playbook.yml
+    # Clone this project (role)
+    git clone https://github.com/tovletoglou/ansible-role-php.git /root/ansible-my-first-playbook/roles/ansible-role-php
+    # Run the playbook!
+    ansible-playbook /root/ansible-my-first-playbook/php-playbook.yml
 
 ## Role Variables
 
