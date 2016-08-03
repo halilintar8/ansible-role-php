@@ -1,0 +1,5 @@
+- name: restart webserver
+  service:
+    name: "{{ webserver }}"
+    state: restarted
+  when: php_webserver
