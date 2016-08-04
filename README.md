@@ -124,7 +124,7 @@ Installed as a playbook git submodule  `git clone https://github.com/tovletoglou
 
 Sending custom vars
 
-     ---
+    ---
 
     - hosts: all
       roles:

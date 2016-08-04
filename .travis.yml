@@ -1,9 +1,17 @@
 ---
+
 language: python
 python: "2.7"
 
 # Use the new container infrastructure
 sudo: true
+
+env:
+  - distribution: centos
+    version: 7
+    init: /usr/lib/systemd/systemd
+    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    SITE: source
 
 # Install ansible
 addons:
@@ -23,7 +31,29 @@ install:
 
 script:
   # Basic role syntax check
-  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  - ansible-playbook tests/01-test.yml -i tests/inventory --syntax-check
+  - ansible-playbook tests/02-test.yml -i tests/inventory --syntax-check
+
+  # Run the role/playbook and check if something failed
+  - >
+    ansible-playbook tests/01-test.yml -i tests/inventory --connection=local
+    | grep -q 'failed=0'
+    && (echo 'Install test pass' && exit 0)
+    || (echo 'Install test fail' && exit 1)
+
+  # re-run the role/playbook and check if something changed/failed
+  - >
+    ansible-playbook tests/02-test.yml -i tests/inventory --connection=local
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Re-run test pass' && exit 0)
+    || (echo 'Re-run test fail' && exit 1)
+
+  # Make sure PHP is available
+  - >
+    php -v
+    | grep -q 'The PHP Group'
+    && (echo 'PHP is installed' && exit 0)
+    || (echo 'PHP is not installed' && exit 1)
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
