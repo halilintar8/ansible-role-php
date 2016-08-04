@@ -1,3 +1,6 @@
+---
+# defaults file for ansible-role-php
+
 # Remove any php version before install. (true | false)
 remove_php: true
 

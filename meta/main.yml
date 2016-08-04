@@ -1,11 +1,6 @@
----
-
-dependencies: []
-
 galaxy_info:
   author: tovletoglou
   description: PHP (5.4, 5.5, 5.6, 7.0, 7.1) using repositories (base, ius, webtatic, remi)
-  company: ""
   license: "MIT"
   min_ansible_version: 1.9
   platforms:
@@ -15,3 +10,5 @@ galaxy_info:
   galaxy_tags:
     - development
     - web
+
+dependencies: []
