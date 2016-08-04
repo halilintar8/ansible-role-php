@@ -100,23 +100,18 @@ Available variables are listed below, along with default values `defaults/main.y
     # Web server folder (string, followed by '/')
     webserver_folder: /var/www/html/
 
-    # Repository list. Do not change.
-    repo_list:
-      - name: "base"
-        repo_package: ""
-        repo_gpg_key_url: ""
+## Dependencies
 
-      - name: "ius"
-        repo_package: "https://centos7.iuscommunity.org/ius-release.rpm"
-        #repo_package: "ius-release"
-        repo_gpg_key_url: "/etc/pki/rpm-gpg/IUS-COMMUNITY-GPG-KEY"
+None, if you don't have a web server (httpd, nginx) change the `defaults/main.yml`  `php_webserver: true` to `false`
 
-      - name: "remi"
-        repo_package: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
-        #repo_package: "remi-release"
-        repo_gpg_key_url: "/etc/pki/rpm-gpg/RPM-GPG-KEY-remi"
+## Example Playbook
 
-      - name: "webtatic"
-        repo_package: "https://mirror.webtatic.com/yum/el7/webtatic-release.rpm"
-        #repo_package: "webtatic-release"
-        repo_gpg_key_url: "/etc/pki/rpm-gpg/RPM-GPG-KEY-webtatic-el7"
+    ---
+
+    - hosts: all
+      roles:
+        - { role: ansible-role-php }
+
+## License
+
+MIT
