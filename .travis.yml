@@ -44,7 +44,7 @@ script:
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm test -x /usr/bin/php'
 
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm php --version'
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm /usr/bin/php --version | grep -qF "PHP Version $PHP_VERSION"'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm /usr/bin/php --version | grep -qF "PHP $PHP_VERSION"'
 
   # Ensure PHP configurations have taken effect.
   - sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm php -i | grep 'memory_limit.*256'
