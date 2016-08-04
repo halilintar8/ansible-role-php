@@ -29,7 +29,7 @@ If you came here and you have no idea where to start and **the only think you wo
     # Create you first playbook
     mkdir /root/ansible-my-first-playbook /root/ansible-my-first-playbook/roles
     echo "---
-    
+
     - hosts: all
       roles:
         - ansible-role-php" > /root/ansible-my-first-playbook/php-playbook.yml
@@ -124,16 +124,16 @@ Installed as a playbook git submodule  `git clone https://github.com/tovletoglou
 
 Sending custom vars
 
-   ---
+     ---
 
-  - hosts: all
-    roles:
-      - { role: tovletoglou.php }
-    vars:
-      remove_php: true
-      php_modules:
-        - cli
-        - common
+    - hosts: all
+      roles:
+        - { role: tovletoglou.php }
+      vars:
+        remove_php: true
+        php_modules:
+          - cli
+          - common
 
 ## License
 
