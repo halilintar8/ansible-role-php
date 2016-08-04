@@ -1,9 +1,5 @@
 ---
 
-language: python
-python: "2.7"
-
-# Use the new container infrastructure
 sudo: true
 
 env:
@@ -11,49 +7,50 @@ env:
     version: 7
     init: /usr/lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    SITE: source
+    SITE: 02-test
+    PHP_VERSION: 5.6.24
 
-# Install ansible
-addons:
-  apt:
-    packages:
-    - python-pip
+services:
+  - docker
 
-install:
-  # Install ansible
-  - pip install ansible
-
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
+before_install:
+  # Pull container
+  - 'sudo docker pull ${distribution}:${version}'
+  # Customize container
+  - 'sudo docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests'
 
 script:
-  # Basic role syntax check
-  - ansible-playbook tests/01-test.yml -i tests/inventory --syntax-check
-  - ansible-playbook tests/02-test.yml -i tests/inventory --syntax-check
+  - container_id=$(mktemp)
 
-  # Run the role/playbook and check if something failed
-  - >
-    ansible-playbook tests/01-test.yml -i tests/inventory --connection=local
-    | grep -q 'failed=0'
-    && (echo 'Install test pass' && exit 0)
-    || (echo 'Install test fail' && exit 1)
+  # Run container in detached state
+  - 'sudo docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"'
 
-  # re-run the role/playbook and check if something changed/failed
+  # Ansible syntax check
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${SITE}.yml --syntax-check'
+
+  # Test role.
+  - 'travis_wait 30 sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${SITE}.yml'
+  - 'travis_wait 30 sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${SITE}.yml'
+
+  # Test role idempotence.
   - >
-    ansible-playbook tests/02-test.yml -i tests/inventory --connection=local
+    sudo docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/${SITE}.yml
     | grep -q 'changed=0.*failed=0'
-    && (echo 'Re-run test pass' && exit 0)
-    || (echo 'Re-run test fail' && exit 1)
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
 
-  # Make sure PHP is available
-  - >
-    php -v
-    | grep -q 'The PHP Group'
-    && (echo 'PHP is installed' && exit 0)
-    || (echo 'PHP is not installed' && exit 1)
+  # Ensure PHP is installed and at the right version.
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which php'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm test -x /usr/bin/php'
+
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm php --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm /usr/bin/php --version | grep -qF "PHP Version $PHP_VERSION"'
+
+  # Ensure PHP configurations have taken effect.
+  - sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm php -i | grep 'memory_limit.*256'
+
+  # Clean up
+  - 'sudo docker stop "$(cat ${container_id})"'
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
