@@ -41,7 +41,7 @@ php_version: php56
 # If you are using php (php 5.4) use the base repo, otherwise I suggest the isu repository.
 repository: ius
 
-# Add or remove php modules
+# Add or remove php modules (do not include php itself)
 php_modules:
   - cli
   - common

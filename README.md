@@ -71,7 +71,7 @@ Available variables are listed below, along with default values `defaults/main.y
     # If you are using php (php 5.4) use the base repo, otherwise I suggest the isu repository.
     repository: ius
 
-    # Add or remove php modules
+    # Add or remove php modules (do not include php itself)
     php_modules:
       - cli
       - common
@@ -106,12 +106,39 @@ None, if you don't have a web server (httpd, nginx) change the `defaults/main.ym
 
 ## Example Playbook
 
+Installed with galaxy.ansible `ansible-galaxy install tovletoglou.php`
+
+    ---
+
+    - hosts: all
+      roles:
+        - { role: tovletoglou.php }
+
+Installed as a playbook git submodule  `git clone https://github.com/tovletoglou/ansible-role-php.git playbook/roles/ansible-role-php`
+
     ---
 
     - hosts: all
       roles:
         - { role: ansible-role-php }
 
+Sending custom vars
+
+   ---
+
+  - hosts: all
+    roles:
+      - { role: tovletoglou.php }
+    vars:
+      remove_php: true
+      php_modules:
+        - cli
+        - common
+
 ## License
 
 MIT
+
+## Author Information
+
+Apostolos Tovletoglou [ansible-role-php](https://github.com/tovletoglou/ansible-role-php)
