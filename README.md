@@ -8,35 +8,31 @@ Tested CentOS 7
 
 ## Get started
 
-If you came here and you have no idea where to start and **the only think you worry is PHP 5.6 on Centos 7** do the following (copy paste as root)
+If you came here and you have no idea where to start and **the only think you worry is PHP 5.6 on Centos 7**  select the following commands and paste it on your terminal.
 
-    # Install Ansible dependencies
-    yum install -y python-jinja2 git
-    # Clone Ansible source from GitHub
-    git clone --recursive git://github.com/ansible/ansible.git /usr/local/src/ansible
-    # Register Ansible on your system
-    source /usr/local/src/ansible/hacking/env-setup
-    # or if you want to run permanently, include in your .bashrc
-    # echo "source /usr/local/src/ansible/hacking/env-setup &> /usr/local/src/ansible/ansible.login" >> ~/.bashrc
-    # Now you can run ansible (sort of)
-
-    # Define Ansible hosts
-    mkdir /etc/ansible
-    # We will use the `local` in order to work on the vm you are logged in
-    echo "localhost ansible_connection=local" > /etc/ansible/hosts
-    # Now you can run ansible on your machine (sort of)
-
+    # Install EPEL repository (need it for ansible)
+    sudo yum install -y epel-release
+    # Install Ansible
+    sudo yum install -y ansible
+    # Install git
+    sudo yum install -y git
+    # Create Ansible hosts file mapped on localhost
+    sudo echo "localhost ansible_connection=local" >> /etc/ansible/hosts
     # Create you first playbook
-    mkdir /root/ansible-my-first-playbook /root/ansible-my-first-playbook/roles
+    mkdir ~/ansible-playbook
     echo "---
 
     - hosts: all
+      become: yes
       roles:
-        - ansible-role-php" > /root/ansible-my-first-playbook/php-playbook.yml
-    # Clone this project (role)
-    git clone https://github.com/tovletoglou/ansible-role-php.git /root/ansible-my-first-playbook/roles/ansible-role-php
-    # Run the playbook!
-    ansible-playbook /root/ansible-my-first-playbook/php-playbook.yml
+        - ansible-role-php" > ~/ansible-playbook/php-playbook.yml
+    # Clone this project (it's an ansible role)
+    git clone https://github.com/tovletoglou/ansible-role-php.git ~/ansible-playbook/roles/ansible-role-php
+    # Run the playbook
+    ansible-playbook ~/ansible-playbook/php-playbook.yml
+    # Test PHP
+    php -v
+    # Enjoy
 
 ## Role Variables
 
