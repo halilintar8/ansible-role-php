@@ -1,7 +1,6 @@
 ---
-# defaults file for ansible-role-php
 
-# Remove any php version before install. (true | false)
+# Remove any php version before install (true | false)
 remove_php: false
 
 # Update php every time you run this role (present | latest)
@@ -15,11 +14,13 @@ webserver: httpd
 
 # Select php version (php | php55 | php56 | php70 | php71)
 #
-#   'php'   for: 5.4.x on repo: base --- -------- remi
-#   'php55' for: 5.5.x on repo: ---- ius webtatic remi
-#   'php56' for: 5.6.x on repo: ---- ius webtatic remi
-#   'php70' for: 7.0.x on repo: ---- ius webtatic remi
-#   'php71' for: 7.1.x on repo: ---- --- -------- remi
+#    | package name | version | base | ius | webtatic | remi |
+#    | -            | -       | -    | -   | -        | -    |
+#    |php           | 5.4.x   | ok   |     |          | ok   |
+#    |php55         | 5.5.x   |      | ok  | ok       | ok   |
+#    |php56         | 5.6.x   |      | ok  | ok       | ok   |
+#    |php70         | 7.0.x   |      | ok  | ok       | ok   |
+#    |php71         | 7.1.x   |      |     |          | ok   |
 #
 # Be extra careful when you choose php version.
 # Not every repository have the corresponding php version. Check the table above.
@@ -36,7 +37,8 @@ php_version: php56
 # Note: Because Remi uses the same package names as the official repositories, Remi is not recommended
 # Info: remi wizard: http://rpms.remirepo.net/wizard/
 
-# Repository (base | ius | webtatic | remi)
+# Choose repository (base | ius | webtatic | remi)
+#
 # ius and remi needs epel repo, epel will be installed automatically if you choose one of these two.
 # If you are using php (php 5.4) use the base repo, otherwise I suggest the isu repository.
 repository: ius
@@ -61,7 +63,8 @@ php_modules:
 create_custom_php_ini: true
 
 # Give the name you want for the CUSTOM.php.ini (string)
-# Edit the php custom configuration in the templates/custom.php.ini.tpl
+#
+# Edit the php custom configuration in the `templates/custom.php.ini.tpl`
 custom_php_ini: custom
 
 # Create DOMAIN/phpinfo.php test page (true | false)

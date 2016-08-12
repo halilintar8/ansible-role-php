@@ -38,36 +38,46 @@ If you came here and you have no idea where to start and **the only think you wo
 
 Available variables are listed below, along with default values `defaults/main.yml`
 
-    # Remove any php version before install. (true | false)
+**Remove any php version before install** (true | false)
+
     remove_php: true
 
-    # Update php every time you run this role (present | latest)
+**Update php every time you run this role** (present | latest)
+
     yum_state: latest
 
-    # Define if you are using a web server (true | false)
+**Define if you are using a web server** (true | false)
+
     php_webserver: true
 
-    # Define your web server (httpd | nginx)
+**Define your web server** (httpd | nginx).
+
     webserver: httpd
 
-    # Select php version (php | php55 | php56 | php70 | php71)
-    #
-    #   'php'   for: 5.4.x on repo: base --- -------- remi
-    #   'php55' for: 5.5.x on repo: ---- ius webtatic remi
-    #   'php56' for: 5.6.x on repo: ---- ius webtatic remi
-    #   'php70' for: 7.0.x on repo: ---- ius webtatic remi
-    #   'php71' for: 7.1.x on repo: ---- --- -------- remi
-    #
-    # Be extra careful when you choose php version.
-    # Not every repository have the corresponding php version. Check the table above.
+**Select php version** (php | php55 | php56 | php70 | php71)
+
+| package name | version | base | ius | webtatic | remi |
+| -            | -       | -    | -   | -        | -    |
+|php           | 5.4.x   | ok   |     |          | ok   |
+|php55         | 5.5.x   |      | ok  | ok       | ok   |
+|php56         | 5.6.x   |      | ok  | ok       | ok   |
+|php70         | 7.0.x   |      | ok  | ok       | ok   |
+|php71         | 7.1.x   |      |     |          | ok   |
+
+Be extra careful when you choose php version.
+Not every repository have the corresponding php version. Check the table above.
+
     php_version: php56
 
-    # Repository (base | ius | webtatic | remi)
-    # ius and remi needs epel repo, epel will be installed automatically if you choose one of these two.
-    # If you are using php (php 5.4) use the base repo, otherwise I suggest the isu repository.
+**Choose repository** (base | ius | webtatic | remi)
+
+ius and remi needs epel repo, epel will be installed automatically if you choose one of these two.
+If you are using php (php 5.4) use the base repo, otherwise I suggest the isu repository.
+
     repository: ius
 
-    # Add or remove php modules (do not include php itself)
+Add or remove php modules (do not include php itself)
+
     php_modules:
       - cli
       - common
@@ -83,17 +93,22 @@ Available variables are listed below, along with default values `defaults/main.y
       - process
       - xml
 
-    # Create CUSTOM.php.ini (true | false)
+**Create CUSTOM.php.ini** (true | false)
+
     create_custom_php_ini: true
 
-    # Give the name you want for the CUSTOM.php.ini (string)
-    # Edit the php custom configuration in the templates/custom.php.ini.tpl
+**Give the name you want for the CUSTOM.php.ini** (string)
+
+Edit the php custom configuration in the `templates/custom.php.ini.tpl`
+
     custom_php_ini: custom
 
-    # Create DOMAIN/phpinfo.php test page (true | false)
+**Create DOMAIN/phpinfo.php test page** (true | false)
+
     create_phpinfo: true
 
-    # Web server folder (string, followed by '/')
+**Web server folder** (string, followed by '/')
+
     webserver_folder: /var/www/html/
 
 ## Dependencies
