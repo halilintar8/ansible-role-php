@@ -2,7 +2,7 @@
 # defaults file for ansible-role-php
 
 # Remove any php version before install. (true | false)
-remove_php: true
+remove_php: false
 
 # Update php every time you run this role (present | latest)
 yum_state: latest
