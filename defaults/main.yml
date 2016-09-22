@@ -54,6 +54,7 @@ php_modules:
   - mbstring
   - mcrypt
   - mysqlnd
+  - opcache
   - pdo
   - pear
   - process

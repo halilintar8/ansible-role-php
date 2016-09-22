@@ -88,6 +88,7 @@ Add or remove php modules (do not include php itself)
       - mbstring
       - mcrypt
       - mysqlnd
+      - opcache
       - pdo
       - pear
       - process
