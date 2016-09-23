@@ -57,12 +57,12 @@ Available variables are listed below, along with default values `defaults/main.y
 **Select php version** (php | php55 | php56 | php70 | php71)
 
 | package name | version | base | ius | webtatic | remi |
-| -            | -       | -    | -   | -        | -    |
-|php           | 5.4.x   | ok   |     |          | ok   |
-|php55         | 5.5.x   |      | ok  | ok       | ok   |
-|php56         | 5.6.x   |      | ok  | ok       | ok   |
-|php70         | 7.0.x   |      | ok  | ok       | ok   |
-|php71         | 7.1.x   |      |     |          | ok   |
+| ---          | ---     | ---  | --- | ---      | ---  |
+| php          | 5.4.x   | ok   |     |          | ok   |
+| php55        | 5.5.x   |      | ok  | ok       | ok   |
+| php56        | 5.6.x   |      | ok  | ok       | ok   |
+| php70        | 7.0.x   |      | ok  | ok       | ok   |
+| php71        | 7.1.x   |      |     |          | ok   |
 
 Be extra careful when you choose php version.
 Not every repository have the corresponding php version. Check the table above.
