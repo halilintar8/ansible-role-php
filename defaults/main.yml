@@ -57,6 +57,7 @@ php_modules:
   - opcache
   - pdo
   - pear
+  - pecl-uploadprogress
   - process
   - xml
 
