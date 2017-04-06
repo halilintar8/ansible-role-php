@@ -2,6 +2,7 @@
 # tasks file for ansible-role-php
 
 - name: Remove any php version
+  become: yes
   yum:
     name: php*
     state: removed
@@ -44,6 +45,7 @@
 # php install task for remi repo only. `Unsafe Repositories`
 # More info: https://ius.io/SafeRepo/#unsafe-package-types
 - name: Install {{ php_version }} using "remi-{{ php_version }}" repo
+  become: yes
   yum:
     pkg: "php"
     state: "{{ yum_state }}"
@@ -54,6 +56,7 @@
 # php module install task for remi repo only. `Unsafe Repositories`
 # More info: https://ius.io/SafeRepo/#unsafe-package-types
 - name: Install {{ php_version }} modules using "remi-{{ php_version }}" repo
+  become: yes
   yum:
     pkg: "php-{{ item }}"
     state: "{{ yum_state }}"
@@ -65,6 +68,7 @@
 # php install task for all other repos. `Safe Repositories`
 # More info: https://ius.io/SafeRepo/#safe-package-types
 - name: Install {{ php_version }} using "{{ repository }}" repo
+  become: yes
   yum:
     pkg: "{{ php_version }}{{ php_repo_sufix }}"
     state: "{{ yum_state }}"
@@ -75,6 +79,7 @@
 # php module install task for all other repos. `Safe Repositories`
 # More info: https://ius.io/SafeRepo/#safe-package-types
 - name: Install {{ php_version }} modules using "{{ repository }}" repo
+  become: yes
   yum:
     pkg: "{{ php_version }}{{ php_repo_sufix }}-{{ item }}"
     state: "{{ yum_state }}"
@@ -84,6 +89,7 @@
   notify: restart webserver
 
 - name: Custom php.ini
+  become: yes
   template:
     src: custom.php.ini.tpl
     dest: "/etc/php.d/{{ custom_php_ini }}.php.ini"
@@ -94,6 +100,7 @@
   notify: restart webserver
 
 - name: Create test phpinfo.php
+  become: yes
   template:
     src: phpinfo.php.tpl
     dest: "{{ webserver_folder }}phpinfo.php"
